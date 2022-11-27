@@ -1,0 +1,33 @@
+package com.tecnm.edd;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Mario Rios <jose.rf@culiacan.tecnm.mx>
+ */
+public class EDD
+{
+
+    public static void main(String[] args) {
+        ApiHelper api = new ApiHelper();
+        String datos = api.get("https://rickandmortyapi.com/api/character");
+        //System.out.println(datos);
+        JsonHelper jsonHelper = new JsonHelper();
+        Personaje[] convertJsonAPersonajes = jsonHelper.convertJsonAPersonajes(datos);
+        Arrays.sort(convertJsonAPersonajes);
+        Scanner sc = new Scanner (System.in);
+        System.out.println("Escribe el nombre del Personaje: ");
+        String nom = sc.next();
+        if(convertJsonAPersonajes != null){
+            Integer encontro = Arrays.binarySearch(convertJsonAPersonajes, nom);
+            for (Personaje personaje : convertJsonAPersonajes) {
+                System.out.println(personaje.getID()+" | "+personaje.getType()+" | "+personaje.getName());
+            }
+            System.out.println("Encontro a: "+encontro);
+        }
+        
+    } 
+}
